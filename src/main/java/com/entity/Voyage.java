@@ -2,6 +2,7 @@ package com.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 
 import javax.persistence.*;
 
@@ -11,6 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "voyages")
+@Getter
 public class Voyage implements Serializable {
 
     @Id
