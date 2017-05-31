@@ -2,6 +2,7 @@ package com.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -37,11 +38,6 @@ public class Voyage implements Serializable {
     @JsonCreator
     public Voyage(@JsonProperty("number")String number) {
         this.number = number;
-    }
-
-    public Voyage(String number, Bus bus) {
-        this.number = number;
-        this.bus = bus;
     }
 
     public String getNumber() {

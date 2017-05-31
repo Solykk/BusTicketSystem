@@ -3,6 +3,7 @@ package com.entity;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -43,12 +44,6 @@ public class Ticket implements Serializable {
         this.place = place;
         this.price = price;
         this.isPaid = false;
-    }
-
-    public Ticket(Integer place, Integer price, boolean isPaid) {
-        this.place = place;
-        this.price = price;
-        this.isPaid = isPaid;
     }
 
     public Integer getPlace() {

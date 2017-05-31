@@ -2,6 +2,7 @@ package com.entity;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -37,12 +38,6 @@ public class Bus implements Serializable {
                @JsonProperty("model") String model) {
         this.number = number;
         this.model = model;
-    }
-
-    public Bus(String number, String model, Driver driver) {
-        this.number = number;
-        this.model = model;
-        this.driver = driver;
     }
 
     public String getNumber() {
