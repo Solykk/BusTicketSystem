@@ -74,14 +74,9 @@ public class VoyageServiceImpl implements VoyageService {
     public Voyage sellTicket(Integer voyageId, Integer ticketId){
         requestValidator.voyageIdTicketIdValidator(voyageId, ticketId);
 
-        Voyage dbVoyage = repository.findOne(voyageId);
+        ticketRepository.findOne(ticketId).setPaid(true);
 
-        Ticket dbTicket = ticketRepository.findOne(ticketId);
-        dbTicket.setPaid(true);
-
-        ticketRepository.save(dbTicket);
-
-        return repository.save(dbVoyage);
+        return repository.findOne(voyageId);
     }
 
     @Override

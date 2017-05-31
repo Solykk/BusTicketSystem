@@ -1,5 +1,7 @@
-package com.entity;
+package unit.com.entity;
 
+import com.entity.Bus;
+import com.entity.Driver;
 import org.junit.Assert;
 import org.junit.Test;
 

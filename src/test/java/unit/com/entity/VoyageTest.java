@@ -1,5 +1,8 @@
-package com.entity;
+package unit.com.entity;
 
+import com.entity.Bus;
+import com.entity.Ticket;
+import com.entity.Voyage;
 import org.junit.Assert;
 import org.junit.Test;
 

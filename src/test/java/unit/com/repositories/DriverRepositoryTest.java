@@ -1,4 +1,4 @@
-package com.repositories;
+package unit.com.repositories;
 
 import static org.junit.Assert.*;
 
