@@ -73,44 +73,47 @@ public class VoyageServiceIT {
         Assert.fail();
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void addVoyageWithTheSameId() {
-
+        //Given
         Voyage voyage = new Voyage("GG8888PP");
         Integer voyageId = voyageService.addVoyage(voyage).getId();
 
-        try {
-            Voyage voyage1 = new Voyage("YY89898WW");
-            voyage1.setId(voyageId);
-            voyageService.addVoyage(voyage1);
-        } catch (IllegalArgumentException e) {
-            Assert.assertEquals("Voyage with id " + voyageId + " exist", e.getMessage());
-        }
+        Voyage voyage1 = new Voyage("YY89898WW");
+        voyage1.setId(voyageId);
+
+        //When
+        voyageService.addVoyage(voyage1);
+
+        //Then
+        Assert.fail();
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void addVoyageWithEmptyFields() {
-        try {
-            Voyage voyage = new Voyage();
-            voyageService.addVoyage(voyage);
-        } catch (IllegalArgumentException e) {
-            Assert.assertEquals("Voyage field 'number' can't be null", e.getMessage());
-        }
+        //When
+        voyageService.addVoyage(new Voyage());
+
+        //Then
+        Assert.fail();
+
     }
 
     @Test
     public void addVoyageAndFindAll() {
+        //Given
         Voyage voyage = new Voyage("GG8888PP");
-        Integer voyageId = voyageService.addVoyage(voyage).getId();
-
         Voyage voyage1 = new Voyage("JJ7767RR");
-        Integer voyageId1 = voyageService.addVoyage(voyage1).getId();
-
         Voyage voyage2 = new Voyage("KK9999PP");
+
+        Integer voyageId = voyageService.addVoyage(voyage).getId();
+        Integer voyageId1 = voyageService.addVoyage(voyage1).getId();
         Integer voyageId2 = voyageService.addVoyage(voyage2).getId();
 
+        ///When
         List<Voyage> voyages = voyageService.findAllVoyages();
 
+        //Then
         Assert.assertEquals("[Voyage{id=" + voyageId + ", number='GG8888PP', bus=null, tickets=null}, " +
                 "Voyage{id=" + voyageId1 + ", number='JJ7767RR', bus=null, tickets=null}, " +
                 "Voyage{id=" + voyageId2 + ", number='KK9999PP', bus=null, tickets=null}]", voyages.toString());
@@ -118,61 +121,66 @@ public class VoyageServiceIT {
 
     @Test
     public void findAllVoyagesInEmptyTable() {
+        //When
         List<Voyage> voyages = voyageService.findAllVoyages();
 
+        //Then
         Assert.assertEquals("[]", voyages.toString());
     }
 
     @Test
     public void changeBusOnVoyage() {
+        //Given
         Voyage voyage = new Voyage("GG8888PP");
-        Integer voyageId = voyageService.addVoyage(voyage).getId();
-
         Voyage voyage1 = new Voyage("JJ7767RR");
-        Integer voyageId1 = voyageService.addVoyage(voyage1).getId();
-
         Bus bus = new Bus("EE7878II", "Joi");
-        Integer busId = busService.addBus(bus).getId();
-
         Bus bus1 = new Bus("PP7777UU", "Inna");
-        Integer busId1 = busService.addBus(bus1).getId();
-
         Bus bus2 = new Bus("WW6544GG", "Monty");
+
+        Integer voyageId = voyageService.addVoyage(voyage).getId();
+        Integer voyageId1 = voyageService.addVoyage(voyage1).getId();
+        Integer busId = busService.addBus(bus).getId();
+        Integer busId1 = busService.addBus(bus1).getId();
         Integer busId2 = busService.addBus(bus2).getId();
 
-        voyageService.changeBusOnVoyage(voyageId, busId);
-        voyageService.changeBusOnVoyage(voyageId1, busId1);
-
+        //When
         try {
+            voyageService.changeBusOnVoyage(voyageId, busId);
+            voyageService.changeBusOnVoyage(voyageId1, busId1);
             voyageService.changeBusOnVoyage(voyageId, busId1);
+
+            //Then
         } catch (IllegalArgumentException e) {
             Assert.assertEquals("Bus " + busId1 + " can't be on different Voyages", e.getMessage());
 
+            //When
             Voyage dbVoyage = voyageService.changeBusOnVoyage(voyageId, busId2);
 
+            //Then
             Assert.assertEquals(new Bus("WW6544GG", "Monty"), dbVoyage.getBus());
         }
     }
 
     @Test
     public void changeBusWithDriverOnVoyage() {
+        //Given
         Voyage voyage = new Voyage("GG8888PP");
-        Integer voyageId = voyageService.addVoyage(voyage).getId();
-
         Driver driver = new Driver("II6636UU", "Dima", "Polter");
-        Integer driverId = driverService.addDriver(driver).getId();
-
         Bus bus = new Bus("EE7878II", "Joi");
+        Bus bus1 = new Bus("PP7777UU", "Inna");
+
+        Integer voyageId = voyageService.addVoyage(voyage).getId();
+        Integer driverId = driverService.addDriver(driver).getId();
         Integer busId = busService.addBus(bus).getId();
 
         busService.changeDriverOnBus(busId, driverId);
-
-        Bus bus1 = new Bus("PP7777UU", "Inna");
         Integer busId1 = busService.addBus(bus1).getId();
 
+        //When
         voyageService.changeBusOnVoyage(voyageId, busId);
         voyageService.changeBusOnVoyage(voyageId, busId1);
 
+        //Then
         Bus busResult = busService.findOneBus(busId);
         Bus busResult2 = busService.findOneBus(busId1);
 
@@ -180,61 +188,72 @@ public class VoyageServiceIT {
         Assert.assertEquals(busResult2.getDriver(), driver);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void changeBusOnVoyageImportNull() {
-        Assert.assertEquals(new Voyage(), voyageService.changeBusOnVoyage(null, null));
+        //When
+        voyageService.changeBusOnVoyage(null, null);
+
+        //Then
+        Assert.fail();
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void changeBusOnVoyageImportNotCorrectId() {
-        try {
-            voyageService.changeBusOnVoyage(1, 0);
-        } catch (IllegalArgumentException e) {
-            Assert.assertEquals("Voyage id or Bus id can't be <= 0", e.getMessage());
-        }
+        //When
+        voyageService.changeBusOnVoyage(1, 0);
+
+        //Then
+        Assert.fail();
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void changeBusOnVoyageImportNotExistId() {
-        try {
-            voyageService.changeBusOnVoyage(1, 1);
-        } catch (IllegalArgumentException e) {
-            Assert.assertEquals("Voyage with id 1 or Bus with id 1 not exist", e.getMessage());
-        }
+        //When
+        voyageService.changeBusOnVoyage(1, 1);
+
+        //Then
+        Assert.fail();
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void addTicketsOnVoyageNullInput() {
-        Assert.assertEquals(new Voyage(), voyageService.addTicketsOnVoyage(null, null));
+        //When
+        voyageService.addTicketsOnVoyage(null, null);
+
+        //Then
+        Assert.fail();
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void addTicketsOnVoyageImportNotCorrectId() {
-        try {
-            voyageService.addTicketsOnVoyage(-1, new HashSet<Ticket>());
-        } catch (IllegalArgumentException e) {
-            Assert.assertEquals("Voyage id can't be <= 0", e.getMessage());
-        }
+        //When
+        voyageService.addTicketsOnVoyage(-1, new HashSet<>());
+
+        //Then
+        Assert.fail();
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void addTicketsOnVoyageImportNotExistId() {
-        try {
-            voyageService.addTicketsOnVoyage(1, new HashSet<Ticket>());
-        } catch (IllegalArgumentException e) {
-            Assert.assertEquals("Voyage with id 1 not exist", e.getMessage());
-        }
+        //When
+        voyageService.addTicketsOnVoyage(1, new HashSet<>());
+
+        //Then
+        Assert.fail();
     }
 
     @Test
     public void findAllTicketsInEmptyTable() {
+        //When
         List<Ticket> tickets = ticketService.findAllTickets();
 
+        //Then
         Assert.assertEquals("[]", tickets.toString());
     }
 
     @Test
     public void addTicketsOnVoyage() {
+        //Given
         Set<Ticket> tickets = new HashSet<>();
         for (int i = 1; i < 5; i++) {
             tickets.add(new Ticket(i, 2000));
@@ -243,34 +262,40 @@ public class VoyageServiceIT {
         Voyage voyage = new Voyage("JJD009");
         Integer bdVoyageID = voyageService.addVoyage(voyage).getId();
 
+        //When
         Voyage dbVoyage = voyageService.addTicketsOnVoyage(bdVoyageID, tickets);
 
+        //Then
         Assert.assertEquals(4, dbVoyage.getTickets().size());
     }
 
     @Test
     public void addTicketsOnVoyageAddMore() {
+        //Given
         Set<Ticket> tickets = new HashSet<>();
         for (int i = 1; i < 5; i++) {
             tickets.add(new Ticket(i, 2000));
         }
-
-        Voyage voyage = new Voyage("JJD009");
-        Integer bdVoyageID = voyageService.addVoyage(voyage).getId();
-
-        voyageService.addTicketsOnVoyage(bdVoyageID, tickets);
 
         Set<Ticket> tickets1 = new HashSet<>();
         for (int i = 5; i < 10; i++) {
             tickets1.add(new Ticket(i, 2000));
         }
 
+        Voyage voyage = new Voyage("JJD009");
+        Integer bdVoyageID = voyageService.addVoyage(voyage).getId();
+
+        //When
+        voyageService.addTicketsOnVoyage(bdVoyageID, tickets);
         Voyage dbVoyage1 = voyageService.addTicketsOnVoyage(bdVoyageID, tickets1);
+
+        //Then
         Assert.assertEquals(9, dbVoyage1.getTickets().size());
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void addTicketsOnVoyageAddMoreWithSamePlace() {
+        //Given
         Set<Ticket> tickets = new HashSet<>();
         for (int i = 1; i < 5; i++) {
             tickets.add(new Ticket(i, 2000));
@@ -279,52 +304,57 @@ public class VoyageServiceIT {
         Voyage voyage = new Voyage("JJD009");
         Integer bdVoyageID = voyageService.addVoyage(voyage).getId();
 
+        //When
+        voyageService.addTicketsOnVoyage(bdVoyageID, tickets);
         voyageService.addTicketsOnVoyage(bdVoyageID, tickets);
 
-        try {
-            voyageService.addTicketsOnVoyage(bdVoyageID, tickets);
-        } catch (IllegalArgumentException e) {
-            Assert.assertEquals("Two Tickets with same place can't be", e.getMessage());
-        }
+        //Then
+        Assert.fail();
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void addTicketsOnVoyageNoTickets() {
+        //Given
         Voyage voyage = new Voyage("JJD009");
         Integer bdVoyageID = voyageService.addVoyage(voyage).getId();
 
-        try {
-            voyageService.addTicketsOnVoyage(bdVoyageID, new HashSet<Ticket>());
-        } catch (IllegalArgumentException e) {
-            Assert.assertEquals("No Tickets", e.getMessage());
-        }
+        //When
+        voyageService.addTicketsOnVoyage(bdVoyageID, new HashSet<>());
+
+        //Then
+        Assert.fail();
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void sellTicketImportNull() {
-        Assert.assertEquals(new Voyage(), voyageService.sellTicket(null, null));
+        //When
+        voyageService.sellTicket(null, null);
+
+        //Then
+        Assert.fail();
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void sellTicketImportNotCorrectId() {
-        try {
-            voyageService.sellTicket(1, 0);
-        } catch (IllegalArgumentException e) {
-            Assert.assertEquals("Voyage id or Ticket id can't be <= 0", e.getMessage());
-        }
+        //When
+        voyageService.sellTicket(1, 0);
+
+        //Then
+        Assert.fail();
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void sellTicketImportNotExistId() {
-        try {
-            voyageService.sellTicket(1, 1);
-        } catch (IllegalArgumentException e) {
-            Assert.assertEquals("Voyage with id 1 or Ticket with id 1 not exist", e.getMessage());
-        }
+        //When
+        voyageService.sellTicket(1, 1);
+
+        //Then
+        Assert.fail();
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void sellTicketImportSoldId() {
+        //Given
         Set<Ticket> tickets = new HashSet<>();
         for (int i = 1; i < 5; i++) {
             if (i == 1) {
@@ -351,15 +381,16 @@ public class VoyageServiceIT {
             }
         }
 
-        try {
-            voyageService.sellTicket(bdVoyageID, ticketId);
-        } catch (IllegalArgumentException e) {
-            Assert.assertEquals("The Ticket with id " + ticketId + " is already sold", e.getMessage());
-        }
+        //When
+        voyageService.sellTicket(bdVoyageID, ticketId);
+
+        //Then
+        Assert.fail();
     }
 
     @Test
     public void sellTicket() {
+        //Given
         Set<Ticket> tickets = new HashSet<>();
         for (int i = 1; i < 5; i++) {
             tickets.add(new Ticket(i, 2000));
@@ -368,26 +399,38 @@ public class VoyageServiceIT {
         Voyage voyage = new Voyage("JJD009");
         Integer bdVoyageID = voyageService.addVoyage(voyage).getId();
 
+        //When
         Voyage dbVoyage = voyageService.addTicketsOnVoyage(bdVoyageID, tickets);
 
+        //Then
         Integer ticketId = dbVoyage.getTickets().iterator().next().getId();
-
         Assert.assertEquals(ticketService.findOneTicket(ticketId).isPaid(), false);
 
+        //When
         voyageService.sellTicket(bdVoyageID, ticketId);
 
+        //Then
         Assert.assertEquals(ticketService.findOneTicket(ticketId).isPaid(), true);
     }
 
     @Test
     public void findOneVoyageNoEntity() {
-        Assert.assertEquals(null, voyageService.findOneVoyage(1));
+        //When
+        Voyage voyage = voyageService.findOneVoyage(1);
+
+        //Then
+        Assert.assertEquals(null, voyage);
     }
 
     @Test
     public void findOneVoyageWithEntity() {
+        //Given
         Voyage voyage = new Voyage("YYY8498");
+
+        //When
         Integer voyageId = voyageService.addVoyage(voyage).getId();
+
+        //Then
         Assert.assertEquals(voyage, voyageService.findOneVoyage(voyageId));
     }
 

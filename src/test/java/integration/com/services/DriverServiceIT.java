@@ -59,7 +59,7 @@ public class DriverServiceIT {
         Assert.fail();
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void addDriverNull() {
         //When
         driverService.addDriver(null);
