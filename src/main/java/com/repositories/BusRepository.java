@@ -3,6 +3,7 @@ package com.repositories;
 import com.entity.Bus;
 
 import org.springframework.data.repository.CrudRepository;
+
 import org.springframework.stereotype.Repository;
 
 @Repository
