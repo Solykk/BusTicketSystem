@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/busStation")
 public class BusController {
 
-    @Autowired
     private BusService service;
 
     //curl -H "Content-type: application/json" -X POST -d '{"number":"AA9898II", "model":"Ferrari"}' http://localhost:8090/busStation/addBus

@@ -44,7 +44,8 @@ curl (доступна в Linux или Mac). Git commit нужно делать 
 
 Для работы приложения и прохождения тестов необходимо создать:
 
-DB = busStation
+DB = busStation, busStationTest
+
 username = postgres
 password = postgres
 
