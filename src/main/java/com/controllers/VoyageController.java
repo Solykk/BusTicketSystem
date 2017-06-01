@@ -21,23 +21,23 @@ public class VoyageController {
 
     private VoyageService service;
 
-    //curl -H "Content-type: application/json" -X POST -d '{"number":"ERES1"}' http://localhost:8090/busStation/addVoyage
-    @RequestMapping(value = "/addVoyage", method = RequestMethod.POST)
+    //curl -H "Content-type: application/json" -X POST -d '{"number":"ERES1"}' http://localhost:8090/busStation/voyages
+    @RequestMapping(value = "/voyages", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> addVoyage(@RequestBody Voyage voyage) {
         return ResponseEntity.ok(service.addVoyage(voyage));
     }
 
-    //curl -H "Content-type: application/json" -X POST http://localhost:8090/busStation/voyage/{id}/bus/{busId}
-    @RequestMapping(value = "/voyage/{id}/bus/{busId}", method = RequestMethod.POST)
+    //curl -H "Content-type: application/json" -X PUT http://localhost:8090/busStation/voyages/{id}/buses/{busId}
+    @RequestMapping(value = "/voyages/{id}/buses/{busId}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?> changeBusOnVoyage( @PathVariable(value="id") Integer voyageId,
                                                 @PathVariable(value="busId") Integer busId) {
         return ResponseEntity.ok(service.changeBusOnVoyage(voyageId, busId));
     }
 
-    //curl -H "Content-type: application/json" -X POST -d '{"place":1, "price":20}' http://localhost:8090/busStation/voyage/{id}/addTicket
-    @RequestMapping(value = "/voyage/{id}/addTicket", method = RequestMethod.POST)
+    //curl -H "Content-type: application/json" -X POST -d '{"place":1, "price":20}' http://localhost:8090/busStation/voyages/{id}/ticket
+    @RequestMapping(value = "/voyages/{id}/ticket", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> addTicketOnVoyage( @PathVariable(value="id") Integer voyageId,
                                                 @RequestBody Ticket ticket) {
@@ -46,8 +46,8 @@ public class VoyageController {
         return ResponseEntity.ok(service.addTicketsOnVoyage(voyageId, tickets));
     }
 
-    //curl -H "Content-type: application/json" -X POST -d '[{"place":1, "price":20}, {"place":2, "price":20}]' http://localhost:8090/busStation/voyage/{id}/addTickets
-    @RequestMapping(value = "/voyage/{id}/addTickets", method = RequestMethod.POST)
+    //curl -H "Content-type: application/json" -X POST -d '[{"place":1, "price":20}, {"place":2, "price":20}]' http://localhost:8090/busStation/voyages/{id}/tickets
+    @RequestMapping(value = "/voyages/{id}/tickets", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?>  addTicketsOnVoyage( @PathVariable(value="id") Integer voyageId,
                                                   @RequestBody ArrayList<Ticket> tickets) {
@@ -56,23 +56,23 @@ public class VoyageController {
         return ResponseEntity.ok(service.addTicketsOnVoyage(voyageId, ticketSet));
     }
 
-    //curl -H "Content-type: application/json" -X POST http://localhost:8090/busStation/voyage/{id}/ticket/{ticketId}
-    @RequestMapping(value = "/voyage/{id}/ticket/{ticketId}", method = RequestMethod.POST)
+    //curl -H "Content-type: application/json" -X PUT http://localhost:8090/busStation/voyages/{id}/tickets/{ticketId}
+    @RequestMapping(value = "/voyages/{id}/tickets/{ticketId}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?>  sellTicket( @PathVariable(value="id") Integer voyageId,
                                           @PathVariable(value="ticketId") Integer ticketId) {
         return ResponseEntity.ok(service.sellTicket(voyageId, ticketId));
     }
 
-    //curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/voyage/{id}
-    @RequestMapping(value = "/voyage/{id}", method = RequestMethod.GET)
+    //curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/voyages/{id}
+    @RequestMapping(value = "/voyages/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findOneVoyage(@PathVariable(value="id") Integer id) {
         return ResponseEntity.ok(service.findOne(id));
     }
 
-    //curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/findAllVoyages
-    @RequestMapping(value = "/findAllVoyages", method = RequestMethod.GET)
+    //curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/voyages
+    @RequestMapping(value = "/voyages", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findAllVoyages() {
         return ResponseEntity.ok(service.findAll());

@@ -14,15 +14,15 @@ public class TicketController {
 
     private TicketService service;
 
-    //curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/findAllTickets
-    @RequestMapping(value = "/findAllTickets", method = RequestMethod.GET)
+    //curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/tickets
+    @RequestMapping(value = "/tickets", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findAllTickets() {
         return ResponseEntity.ok(service.findAll());
     }
 
-    //curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/ticket/{id}
-    @RequestMapping(value = "/ticket/{id}", method = RequestMethod.GET)
+    //curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/tickets/{id}
+    @RequestMapping(value = "/tickets/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findOneTicket(@PathVariable(value="id") Integer id) {
         return ResponseEntity.ok(service.findOne(id));
