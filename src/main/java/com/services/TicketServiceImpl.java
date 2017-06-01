@@ -16,12 +16,12 @@ public class TicketServiceImpl implements TicketService {
     private TicketRepository repository;
 
     @Override
-    public Ticket findOneTicket(Integer id) {
+    public Ticket findOne(Integer id) {
         return repository.findOne(id);
     }
 
     @Override
-    public List<Ticket> findAllTickets() {
+    public List<Ticket> findAll() {
         return (List<Ticket>) repository.findAll();
     }
 

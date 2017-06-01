@@ -13,7 +13,7 @@ public interface VoyageService {
     Voyage addTicketsOnVoyage(Integer voyageId, Set<Ticket> tickets);
     Voyage sellTicket(Integer voyageId, Integer ticketId);
 
-    Voyage findOneVoyage(Integer id);
-    List<Voyage> findAllVoyages();
+    Voyage findOne(Integer id);
+    List<Voyage> findAll();
 
 }

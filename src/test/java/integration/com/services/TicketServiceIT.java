@@ -38,7 +38,7 @@ public class TicketServiceIT {
     @Test
     public void findOneTicketNoEntity() {
         //When
-        Ticket ticket = ticketService.findOneTicket(1);
+        Ticket ticket = ticketService.findOne(1);
 
         //Then
         Assert.assertEquals(null, ticket);
@@ -53,7 +53,7 @@ public class TicketServiceIT {
         Integer ticketId = ticketRepository.save(ticket).getId();
 
         //Then
-        Assert.assertEquals(ticket, ticketService.findOneTicket(ticketId));
+        Assert.assertEquals(ticket, ticketService.findOne(ticketId));
     }
 
     @Autowired

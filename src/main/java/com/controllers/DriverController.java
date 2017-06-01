@@ -27,14 +27,14 @@ public class DriverController {
     @RequestMapping(value = "/driver/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findOneDriver(@PathVariable(value="id") Integer id) {
-        return ResponseEntity.ok(service.findOneDriver(id));
+        return ResponseEntity.ok(service.findOne(id));
     }
 
     //curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/findAllDrivers
     @RequestMapping(value = "/findAllDrivers", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findAllDrivers() {
-        return ResponseEntity.ok(service.findAllDrivers());
+        return ResponseEntity.ok(service.findAll());
     }
 
     @Autowired

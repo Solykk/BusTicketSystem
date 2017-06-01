@@ -35,14 +35,14 @@ public class BusController {
     @RequestMapping(value = "/bus/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findOneBus(@PathVariable(value="id") Integer id) {
-        return ResponseEntity.ok(service.findOneBus(id));
+        return ResponseEntity.ok(service.findOne(id));
     }
 
     //curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/findAllBuses
     @RequestMapping(value = "/findAllBuses", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findAllBuses() {
-        return ResponseEntity.ok(service.findAllBuses());
+        return ResponseEntity.ok(service.findAll());
     }
 
     @Autowired

@@ -185,7 +185,7 @@ public class VoyageControllerIT {
 
         voyageController.addTicketsOnVoyage(voyage.getId(), tickets);
 
-        Voyage dbVoyage  = voyageService.findOneVoyage(voyage.getId());
+        Voyage dbVoyage  = voyageService.findOne(voyage.getId());
 
         Integer ticketId = dbVoyage.getTickets().iterator().next().getId();
 
@@ -196,7 +196,7 @@ public class VoyageControllerIT {
 
         Voyage expectedVoyage = new Voyage("YYY6");
         expectedVoyage.setId(voyage.getId());
-        expectedVoyage.setTickets(new HashSet<>(ticketService.findAllTickets()));
+        expectedVoyage.setTickets(new HashSet<>(ticketService.findAll()));
 
         ResponseEntity<?> expected = new ResponseEntity<>(expectedVoyage, HttpStatus.OK);
         Assert.assertEquals(expected, actual);

@@ -68,14 +68,14 @@ public class VoyageController {
     @RequestMapping(value = "/voyage/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findOneVoyage(@PathVariable(value="id") Integer id) {
-        return ResponseEntity.ok(service.findOneVoyage(id));
+        return ResponseEntity.ok(service.findOne(id));
     }
 
     //curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/findAllVoyages
     @RequestMapping(value = "/findAllVoyages", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findAllVoyages() {
-        return ResponseEntity.ok(service.findAllVoyages());
+        return ResponseEntity.ok(service.findAll());
     }
 
     @Autowired

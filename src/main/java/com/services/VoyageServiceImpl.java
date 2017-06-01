@@ -80,12 +80,12 @@ public class VoyageServiceImpl implements VoyageService {
     }
 
     @Override
-    public Voyage findOneVoyage(Integer id) {
+    public Voyage findOne(Integer id) {
         return repository.findOne(id);
     }
 
     @Override
-    public List<Voyage> findAllVoyages() {
+    public List<Voyage> findAll() {
         return (List<Voyage>)repository.findAll();
     }
 

@@ -36,12 +36,12 @@ public class BusServiceImpl implements BusService {
     }
 
     @Override
-    public Bus findOneBus(Integer id) {
+    public Bus findOne(Integer id) {
         return repository.findOne(id);
     }
 
     @Override
-    public List<Bus> findAllBuses() {
+    public List<Bus> findAll() {
         return (List<Bus>) repository.findAll();
     }
 

@@ -110,7 +110,7 @@ public class BusServiceIT {
         Integer busId2 = busService.addBus(bus2).getId();
 
         //When
-        List<Bus> buses = busService.findAllBuses();
+        List<Bus> buses = busService.findAll();
 
         //Then
         Assert.assertEquals("[Bus{id=" + busId + ", number='GG8888PP', model='Gin', driver=null}, " +
@@ -121,7 +121,7 @@ public class BusServiceIT {
     @Test
     public void findAllBusesInEmptyTable() {
         //When
-        List<Bus> buses = busService.findAllBuses();
+        List<Bus> buses = busService.findAll();
 
         //Then
         Assert.assertEquals("[]", buses.toString());
@@ -190,7 +190,7 @@ public class BusServiceIT {
     @Test
     public void findOneBusNoEntity() {
         //When
-        Bus actualResult = busService.findOneBus(1);
+        Bus actualResult = busService.findOne(1);
 
         //Then
         Assert.assertEquals(null, actualResult);
@@ -205,7 +205,7 @@ public class BusServiceIT {
         Integer busId = busService.addBus(bus).getId();
 
         //Then
-        Assert.assertEquals(bus, busService.findOneBus(busId));
+        Assert.assertEquals(bus, busService.findOne(busId));
     }
 
     @Autowired

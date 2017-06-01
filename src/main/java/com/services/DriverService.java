@@ -7,7 +7,7 @@ import java.util.List;
 public interface DriverService {
 
     Driver addDriver(Driver driver);
-    List<Driver> findAllDrivers();
-    Driver findOneDriver(Integer id);
+    Driver findOne(Integer id);
+    List<Driver> findAll();
 
 }

@@ -111,7 +111,7 @@ public class VoyageServiceIT {
         Integer voyageId2 = voyageService.addVoyage(voyage2).getId();
 
         ///When
-        List<Voyage> voyages = voyageService.findAllVoyages();
+        List<Voyage> voyages = voyageService.findAll();
 
         //Then
         Assert.assertEquals("[Voyage{id=" + voyageId + ", number='GG8888PP', bus=null, tickets=null}, " +
@@ -122,7 +122,7 @@ public class VoyageServiceIT {
     @Test
     public void findAllVoyagesInEmptyTable() {
         //When
-        List<Voyage> voyages = voyageService.findAllVoyages();
+        List<Voyage> voyages = voyageService.findAll();
 
         //Then
         Assert.assertEquals("[]", voyages.toString());
@@ -181,8 +181,8 @@ public class VoyageServiceIT {
         voyageService.changeBusOnVoyage(voyageId, busId1);
 
         //Then
-        Bus busResult = busService.findOneBus(busId);
-        Bus busResult2 = busService.findOneBus(busId1);
+        Bus busResult = busService.findOne(busId);
+        Bus busResult2 = busService.findOne(busId1);
 
         Assert.assertEquals(busResult.getDriver(), null);
         Assert.assertEquals(busResult2.getDriver(), driver);
@@ -245,7 +245,7 @@ public class VoyageServiceIT {
     @Test
     public void findAllTicketsInEmptyTable() {
         //When
-        List<Ticket> tickets = ticketService.findAllTickets();
+        List<Ticket> tickets = ticketService.findAll();
 
         //Then
         Assert.assertEquals("[]", tickets.toString());
@@ -404,19 +404,19 @@ public class VoyageServiceIT {
 
         //Then
         Integer ticketId = dbVoyage.getTickets().iterator().next().getId();
-        Assert.assertEquals(ticketService.findOneTicket(ticketId).isPaid(), false);
+        Assert.assertEquals(ticketService.findOne(ticketId).isPaid(), false);
 
         //When
         voyageService.sellTicket(bdVoyageID, ticketId);
 
         //Then
-        Assert.assertEquals(ticketService.findOneTicket(ticketId).isPaid(), true);
+        Assert.assertEquals(ticketService.findOne(ticketId).isPaid(), true);
     }
 
     @Test
     public void findOneVoyageNoEntity() {
         //When
-        Voyage voyage = voyageService.findOneVoyage(1);
+        Voyage voyage = voyageService.findOne(1);
 
         //Then
         Assert.assertEquals(null, voyage);
@@ -431,7 +431,7 @@ public class VoyageServiceIT {
         Integer voyageId = voyageService.addVoyage(voyage).getId();
 
         //Then
-        Assert.assertEquals(voyage, voyageService.findOneVoyage(voyageId));
+        Assert.assertEquals(voyage, voyageService.findOne(voyageId));
     }
 
     @Autowired

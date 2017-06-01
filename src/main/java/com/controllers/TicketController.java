@@ -18,14 +18,14 @@ public class TicketController {
     @RequestMapping(value = "/findAllTickets", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findAllTickets() {
-        return ResponseEntity.ok(service.findAllTickets());
+        return ResponseEntity.ok(service.findAll());
     }
 
     //curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/ticket/{id}
     @RequestMapping(value = "/ticket/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findOneTicket(@PathVariable(value="id") Integer id) {
-        return ResponseEntity.ok(service.findOneTicket(id));
+        return ResponseEntity.ok(service.findOne(id));
     }
 
     @Autowired

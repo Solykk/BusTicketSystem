@@ -24,12 +24,12 @@ public class DriverServiceImpl implements DriverService{
     }
 
     @Override
-    public List<Driver> findAllDrivers() {
+    public List<Driver> findAll() {
         return (List<Driver>) repository.findAll();
     }
 
     @Override
-    public Driver findOneDriver(Integer id) {
+    public Driver findOne(Integer id) {
         return repository.findOne(id);
     }
 

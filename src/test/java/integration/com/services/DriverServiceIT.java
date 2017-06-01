@@ -105,7 +105,7 @@ public class DriverServiceIT {
         Integer driverId3 = driverService.addDriver(driver3).getId();
 
         //When
-        List<Driver> drivers = driverService.findAllDrivers();
+        List<Driver> drivers = driverService.findAll();
 
         //Then
         Assert.assertEquals("[Driver{id=" + driverId + ", license='RRRERR', name='Joi', surname='Jingle'}, " +
@@ -116,7 +116,7 @@ public class DriverServiceIT {
     @Test
     public void findAllDriversInEmptyTable() {
         //When
-        List<Driver> drivers = driverService.findAllDrivers();
+        List<Driver> drivers = driverService.findAll();
 
         //Then
         Assert.assertEquals("[]", drivers.toString());
@@ -125,7 +125,7 @@ public class DriverServiceIT {
     @Test
     public void findOneDriverNoEntity() {
         //When
-        Driver driver = driverService.findOneDriver(1);
+        Driver driver = driverService.findOne(1);
 
         //Then
         Assert.assertEquals(null, driver);
@@ -140,7 +140,7 @@ public class DriverServiceIT {
         Integer driverId = driverService.addDriver(driver).getId();
 
         //Then
-        Assert.assertEquals(driver, driverService.findOneDriver(driverId));
+        Assert.assertEquals(driver, driverService.findOne(driverId));
     }
 
     @Autowired
