@@ -7,6 +7,7 @@ import com.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
+import sun.java2d.pipe.ValidatePipe;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -71,12 +72,32 @@ public class VoyageServiceImpl implements VoyageService {
     }
 
     @Override
-    public Voyage sellTicket(Integer voyageId, Integer ticketId){
+    public String sellTicket(Integer voyageId, Integer ticketId){
         requestValidator.voyageIdTicketIdValidator(voyageId, ticketId);
 
         ticketRepository.findOne(ticketId).setPaid(true);
 
-        return repository.findOne(voyageId);
+        return customResponse(voyageId, ticketId);
+    }
+
+    private String customResponse(Integer voyageId, Integer ticketId){
+        Ticket ticket = ticketRepository.findOne(ticketId);
+        Voyage voyage = repository.findOne(voyageId);
+
+        String lineSeparator = System.lineSeparator();
+
+        return "Voyage{".concat(lineSeparator)
+                .concat("   number = ").concat(voyage.getNumber()).concat(lineSeparator)
+                .concat("   busNumber = ").concat(voyage.getBus() != null ? voyage.getBus().getNumber() : "null").concat(lineSeparator)
+                .concat("   busModel = ").concat(voyage.getBus() != null ? voyage.getBus().getModel() : "null").concat(lineSeparator)
+                .concat("   driverName = ")
+                .concat(voyage.getBus() != null && voyage.getBus().getDriver() != null ? voyage.getBus().getDriver().getName() : "null").concat(lineSeparator)
+                .concat("   driverSurname = ")
+                .concat(voyage.getBus() != null && voyage.getBus().getDriver() != null ? voyage.getBus().getDriver().getSurname() : "null").concat(lineSeparator)
+                .concat("   ticketPrice = ").concat(ticket.getPrice().toString()).concat(lineSeparator)
+                .concat("   ticketPlace = ").concat(ticket.getPlace().toString()).concat(lineSeparator)
+                .concat("   isPaid = ").concat(String.valueOf(ticket.isPaid()))
+                .concat("}");
     }
 
     @Override

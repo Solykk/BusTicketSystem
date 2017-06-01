@@ -111,12 +111,23 @@ public class VoyageServiceImplTest {
 
         voyage.setTickets(tickets);
 
+        String lineSeparator = System.lineSeparator();
+        String expectedString = "Voyage{" + lineSeparator +
+                "   number = UUU556" + lineSeparator +
+                "   busNumber = null" + lineSeparator +
+                "   busModel = null" + lineSeparator +
+                "   driverName = null" + lineSeparator +
+                "   driverSurname = null" + lineSeparator +
+                "   ticketPrice = 444" + lineSeparator +
+                "   ticketPlace = 1" + lineSeparator +
+                "   isPaid = true}";
+
         //When
         when(ticketRepository.findOne(1)).thenReturn(ticket);
         when(repository.findOne(1)).thenReturn(voyage);
 
         //Then
-        Assert.assertEquals(voyage, voyageService.sellTicket(1, 1));
+        Assert.assertEquals(expectedString, voyageService.sellTicket(1, 1));
     }
 
     @Test

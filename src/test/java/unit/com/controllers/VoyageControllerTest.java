@@ -102,10 +102,11 @@ public class VoyageControllerTest {
         expectedVoyage.setTickets(tickets);
 
         //When
-        when(voyageService.sellTicket(1, 1)).thenReturn(expectedVoyage);
+        String expectedString = "";
+        when(voyageService.sellTicket(1, 1)).thenReturn(expectedString);
 
         //Then
-        ResponseEntity<?> expected = new ResponseEntity<>(expectedVoyage, HttpStatus.OK);
+        ResponseEntity<?> expected = new ResponseEntity<>(expectedString, HttpStatus.OK);
         Assert.assertEquals(expected, voyageController.sellTicket(1, 1));
     }
 

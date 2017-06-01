@@ -194,11 +194,19 @@ public class VoyageControllerIT {
 
         //Then
 
-        Voyage expectedVoyage = new Voyage("YYY6");
-        expectedVoyage.setId(voyage.getId());
-        expectedVoyage.setTickets(new HashSet<>(ticketService.findAll()));
+        String lineSeparator  = System.lineSeparator();
+        String expectedString =
+                "Voyage{" + lineSeparator +
+                        "   number = YYY6" + lineSeparator +
+                        "   busNumber = null" + lineSeparator +
+                        "   busModel = null" + lineSeparator +
+                        "   driverName = null" + lineSeparator +
+                        "   driverSurname = null" + lineSeparator +
+                        "   ticketPrice = 2000" + lineSeparator +
+                        "   ticketPlace = 1" + lineSeparator +
+                        "   isPaid = true}";
 
-        ResponseEntity<?> expected = new ResponseEntity<>(expectedVoyage, HttpStatus.OK);
+        ResponseEntity<?> expected = new ResponseEntity<>(expectedString, HttpStatus.OK);
         Assert.assertEquals(expected, actual);
     }
 

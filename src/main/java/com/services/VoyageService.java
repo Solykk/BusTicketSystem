@@ -11,7 +11,7 @@ public interface VoyageService {
     Voyage addVoyage(Voyage voyage);
     Voyage changeBusOnVoyage(Integer voyageId,  Integer busId);
     Voyage addTicketsOnVoyage(Integer voyageId, Set<Ticket> tickets);
-    Voyage sellTicket(Integer voyageId, Integer ticketId);
+    String sellTicket(Integer voyageId, Integer ticketId);
 
     Voyage findOne(Integer id);
     List<Voyage> findAll();
