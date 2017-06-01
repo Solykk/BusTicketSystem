@@ -41,22 +41,36 @@ public class VoyageServiceIT {
 
     @Test
     public void addVoyage() {
-        Assert.assertNotNull(voyageService.addVoyage(new Voyage("23334YY")));
+        //Given
+        Voyage voyage = new Voyage("23334YY");
+
+        //When
+        Voyage result = voyageService.addVoyage(voyage);
+
+        //Then
+        Assert.assertNotNull(result);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void addVoyageWithTheSameNumber() {
-        try {
-            voyageService.addVoyage(new Voyage("GG8888PP"));
-            voyageService.addVoyage(new Voyage("GG8888PP"));
-        } catch (IllegalArgumentException e) {
-            Assert.assertEquals("Voyage with number GG8888PP exist", e.getMessage());
-        }
+        //Given
+        Voyage voyage = new Voyage("GG8888PP");
+
+        //When
+        voyageService.addVoyage(voyage);
+        voyageService.addVoyage(voyage);
+
+        //Then
+        Assert.fail();
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void addVoyageNull() {
-        Assert.assertEquals(new Voyage(), voyageService.addVoyage(null));
+        //When
+        voyageService.addVoyage(null);
+
+        //Then
+        Assert.fail();
     }
 
     @Test

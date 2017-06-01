@@ -36,62 +36,78 @@ public class DriverServiceIT {
 
     @Test
     public void addDriver() {
-        Assert.assertNotNull(driverService.addDriver(new Driver("YIIIPPO", "Poll", "Banana")));
+        //Given
+        Driver driver = new Driver("YIIIPPO", "Poll", "Banana");
+
+        //When
+        Driver result = driverService.addDriver(driver);
+
+        //Then
+        Assert.assertNotNull(result);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void addDriverWithTheSameLicense() {
-        try {
-            driverService.addDriver(new Driver("YIIIPPO", "Poll", "Banana"));
-            driverService.addDriver(new Driver("YIIIPPO", "Niki", "Lauda"));
-        } catch (IllegalArgumentException e) {
-            Assert.assertEquals("Driver with license YIIIPPO exist", e.getMessage());
-        }
+        //Given
+        Driver driver = new Driver("YIIIPPO", "Poll", "Banana");
+
+        //When
+        driverService.addDriver(driver);
+        driverService.addDriver(driver);
+
+        //Then
+        Assert.fail();
     }
 
     @Test
     public void addDriverNull() {
-        Assert.assertEquals(new Driver(), driverService.addDriver(null));
+        //When
+        driverService.addDriver(null);
+
+        //Then
+        Assert.fail();
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void addDriveWithTheSameId() {
-
+        //Given
         Driver driver = new Driver("RRRERR", "Joi", "Jingle");
         Integer driverId = driverService.addDriver(driver).getId();
 
-        try {
-            Driver driver2 = new Driver("TOTOTO", "Joi", "Jingle");
-            driver2.setId(driverId);
-            driverService.addDriver(driver2);
-        } catch (IllegalArgumentException e) {
-            Assert.assertEquals("Driver with id " + driverId + " exist", e.getMessage());
-        }
+        Driver driver2 = new Driver("TOTOTO", "Joi", "Jingle");
+        driver2.setId(driverId);
+
+        //When
+        driverService.addDriver(driver2);
+
+        //Then
+        Assert.fail();
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class )
     public void addDriveWithEmptyFields() {
-        try {
-            Driver driver = new Driver();
-            driverService.addDriver(driver);
-        } catch (IllegalArgumentException e) {
-            Assert.assertEquals("Driver fields can't be null", e.getMessage());
-        }
+        //When
+        driverService.addDriver(new Driver());
+
+        //Then
+        Assert.fail();
     }
 
     @Test
     public void addDrivesAndFindAll() {
+        //Given
         Driver driver = new Driver("RRRERR", "Joi", "Jingle");
-        Integer driverId = driverService.addDriver(driver).getId();
-
         Driver driver2 = new Driver("TOTOTO", "Inna", "Ser");
-        Integer driverId2 = driverService.addDriver(driver2).getId();
-
         Driver driver3 = new Driver("MO8980", "Monty", "Dill");
+
+        Integer driverId = driverService.addDriver(driver).getId();
+        Integer driverId2 = driverService.addDriver(driver2).getId();
         Integer driverId3 = driverService.addDriver(driver3).getId();
 
+        //When
         List<Driver> drivers = driverService.findAllDrivers();
 
+        //Then
         Assert.assertEquals("[Driver{id=" + driverId + ", license='RRRERR', name='Joi', surname='Jingle'}, " +
                 "Driver{id=" + driverId2 + ", license='TOTOTO', name='Inna', surname='Ser'}, " +
                 "Driver{id=" + driverId3 + ", license='MO8980', name='Monty', surname='Dill'}]", drivers.toString());
@@ -99,20 +115,31 @@ public class DriverServiceIT {
 
     @Test
     public void findAllDriversInEmptyTable() {
-       List<Driver> drivers = driverService.findAllDrivers();
+        //When
+        List<Driver> drivers = driverService.findAllDrivers();
 
+        //Then
         Assert.assertEquals("[]", drivers.toString());
     }
 
     @Test
     public void findOneDriverNoEntity() {
-        Assert.assertEquals(null, driverService.findOneDriver(1));
+        //When
+        Driver driver = driverService.findOneDriver(1);
+
+        //Then
+        Assert.assertEquals(null, driver);
     }
 
     @Test
     public void findOneDriverWithEntity() {
+        //Given
         Driver driver = new Driver("HHd777", "Joi", "Tirb");
+
+        //When
         Integer driverId = driverService.addDriver(driver).getId();
+
+        //Then
         Assert.assertEquals(driver, driverService.findOneDriver(driverId));
     }
 

@@ -37,13 +37,22 @@ public class TicketServiceIT {
 
     @Test
     public void findOneTicketNoEntity() {
-        Assert.assertEquals(null, ticketService.findOneTicket(1));
+        //When
+        Ticket ticket = ticketService.findOneTicket(1);
+
+        //Then
+        Assert.assertEquals(null, ticket);
     }
 
     @Test
     public void findOneTicketWithEntity() {
+        //Given
         Ticket ticket = new Ticket(1, 90);
+
+        //When
         Integer ticketId = ticketRepository.save(ticket).getId();
+
+        //Then
         Assert.assertEquals(ticket, ticketService.findOneTicket(ticketId));
     }
 
