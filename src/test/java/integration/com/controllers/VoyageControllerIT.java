@@ -175,7 +175,7 @@ public class VoyageControllerIT {
     }
 
     @Test
-    public void sellTickets() {
+    public void sellTicket() {
         //Given
         Voyage voyage = voyageService.addVoyage(new Voyage("YYY6"));
         ArrayList<Ticket> tickets = new ArrayList<>();
