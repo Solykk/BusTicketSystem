@@ -37,7 +37,7 @@ public class TicketController {
     /**
      * Этот метод извлекает список всех 'Билетов'
      *
-     * response{[...]}
+     * response[{...}]
      *
      * пример curl запроса:
      * curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/tickets

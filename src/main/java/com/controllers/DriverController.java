@@ -64,7 +64,7 @@ public class DriverController {
     /**
      * Этот метод извлекает список всех 'Водителей'
      *
-     * response{[...]}
+     * response[{...}]
      *
      * пример curl запроса:
      * curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/drivers
