@@ -52,7 +52,7 @@ public class DriverServiceImplTest {
         when(driverRepository.findOne(1)).thenReturn(driver1);
 
         //Then
-        Assert.assertEquals(driver1, driverRepository.findOne(1));
+        Assert.assertEquals(driver1, driverService.findOne(1));
     }
 
     @Test
@@ -65,6 +65,6 @@ public class DriverServiceImplTest {
         when(driverRepository.findAll()).thenReturn(Arrays.asList(driver, driver1));
 
         //Then
-        Assert.assertEquals(Arrays.asList(driver, driver1), driverRepository.findAll());
+        Assert.assertEquals(Arrays.asList(driver, driver1), driverService.findAll());
     }
 }
