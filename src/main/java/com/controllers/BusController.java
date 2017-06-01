@@ -16,14 +16,48 @@ public class BusController {
 
     private BusService service;
 
-    //curl -H "Content-type: application/json" -X POST -d '{"number":"AA9898II", "model":"Ferrari"}' http://localhost:8090/busStation/buses
+    /**
+     * Этот метод создает запись 'Автобус' в БД и возвращает эту запись с присвоенным ID.
+     *
+     * request{
+     *     "number":"..." - номер автобуса (String)
+     *     "model":"..." - модель автобуса (String)
+     * }
+     * response{
+     *     "id": ... - ID созданной записи
+     *     "number":"..." - номер автобуса созданной записи
+     *     "model":"..." - модель автобуса созданной записи
+     *     "driver":{null} - 'Водитель' созданной записи
+     * }
+     *
+     * пример curl запроса:
+     * curl -H "Content-type: application/json" -X POST -d '{"number":"AA9898II", "model":"Ferrari"}' http://localhost:8090/busStation/buses
+     */
+
     @RequestMapping(value = "/buses", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> addBus(@RequestBody Bus bus) {
         return ResponseEntity.ok(service.addBus(bus));
     }
 
-    //curl -H "Content-type: application/json" -X PUT http://localhost:8090/busStation/buses/{id}/drivers/{driverId}
+    /**
+     * Этот метод создает запись 'Автобус' в БД и возвращает эту запись с присвоенным ID.
+     *
+     * request{
+     *     "number":"..." - номер автобуса (String)
+     *     "model":"..." - модель автобуса (String)
+     * }
+     * response{
+     *     "id": ... - ID созданной записи
+     *     "number":"..." - номер автобуса созданной записи
+     *     "model":"..." - модель автобуса созданной записи
+     *     "driver":{null} - 'Водитель' созданной записи
+     * }
+     *
+     * пример curl запроса:
+     * curl -H "Content-type: application/json" -X PUT http://localhost:8090/busStation/buses/{id}/drivers/{driverId}
+     */
+
     @RequestMapping(value = "/buses/{id}/drivers/{driverId}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?> changeDriverOnBus( @PathVariable(value="id") Integer busId,
@@ -31,14 +65,41 @@ public class BusController {
         return ResponseEntity.ok(service.changeDriverOnBus(busId, driverId));
     }
 
-    //curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/buses/{id}
+    /**
+     * Этот метод по 'id' извлекает конкретный 'Автобус'
+     *
+     * response{
+     *     "id": ... - ID запрашиваемой записи
+     *     "number":"..." - номер автобуса запрашиваемой записи
+     *     "model":"..." - модель автобуса запрашиваемой записи
+     *     "driver":{null} - если к запрашиваемая запись не хранит 'Водитель'
+     *              {
+     *                  "id": ... - ID хранимого водителя
+     *                  "license":"..." - номер водилельского удостоверения хранимого водителя
+     *                  "name":"..." - имя водителя хранимого водителя
+     *                  "surname":"..." - фамилия водителя хранимого водителя
+     *              } - если к запрашиваемая запись хранит 'Водителя'
+     * }
+     *
+     * пример curl запроса:
+     * curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/buses/{id}
+     */
+
     @RequestMapping(value = "/buses/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findOneBus(@PathVariable(value="id") Integer id) {
         return ResponseEntity.ok(service.findOne(id));
     }
 
-    //curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/buses
+    /**
+     * Этот метод извлекает список всех 'Автобусов'
+     *
+     * response{[...]}
+     *
+     * пример curl запроса:
+     * curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/buses
+     */
+
     @RequestMapping(value = "/buses", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findAllBuses() {
