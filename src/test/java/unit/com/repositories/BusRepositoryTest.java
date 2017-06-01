@@ -14,7 +14,7 @@ public class BusRepositoryTest {
     private BusRepository busRepository = mock(BusRepository.class);
 
     @Test
-    public void addBus() {
+    public void save() {
         //Given
         Bus dbBus = new Bus("AA1234AA", "Porsche");
         dbBus.setId(1);
@@ -27,5 +27,19 @@ public class BusRepositoryTest {
                 busRepository.save(new Bus("AA1234AA", "Porsche")).getId(),
                 new Integer(1));
 
+    }
+
+    @Test
+    public void findOneByNumber(){
+        //Given
+        Bus bus = new Bus("AA0009OO", "Ferrari");
+        Bus busDb = new Bus("AA0009OO", "Ferrari");
+        busDb.setId(1);
+
+        //When
+        when(busRepository.findOneByNumber("AA0009OO")).thenReturn(busDb);
+
+        //Then
+        Assert.assertEquals(busDb, busRepository.findOneByNumber("AA0009OO"));
     }
 }
