@@ -21,14 +21,37 @@ public class VoyageController {
 
     private VoyageService service;
 
-    //curl -H "Content-type: application/json" -X POST -d '{"number":"ERES1"}' http://localhost:8090/busStation/voyages
+    /**
+     * Этот метод создает запись 'Рейс' в БД и возвращает эту запись с присвоенным ID.
+     *
+     * request{
+     *     "number":"..." - номер рейса (String)
+     * }
+     * response{
+     *     "id": ... - ID созданной записи
+     *     "number":"..." - номер рейса созданной записи
+     *     "bus":{null} - автобус созданной записи
+     *     "tickets":{null}- список билетов на рейс созданной записи
+     * }
+     *
+     * пример curl запроса:
+     * curl -H "Content-type: application/json" -X POST -d '{"number":"ERES1"}' http://localhost:8090/busStation/voyages
+     */
+
     @RequestMapping(value = "/voyages", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> addVoyage(@RequestBody Voyage voyage) {
         return ResponseEntity.ok(service.addVoyage(voyage));
     }
 
-    //curl -H "Content-type: application/json" -X PUT http://localhost:8090/busStation/voyages/{id}/buses/{busId}
+    /**
+     * Этот метод по {id} конкретного 'Рейса' в БД присваевает по {id} конкретный 'Автобус' в БД.
+     *
+     *
+     * пример curl запроса:
+     * curl -H "Content-type: application/json" -X PUT http://localhost:8090/busStation/voyages/{id}/buses/{busId}
+     */
+
     @RequestMapping(value = "/voyages/{id}/buses/{busId}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?> changeBusOnVoyage( @PathVariable(value="id") Integer voyageId,
@@ -36,7 +59,14 @@ public class VoyageController {
         return ResponseEntity.ok(service.changeBusOnVoyage(voyageId, busId));
     }
 
-    //curl -H "Content-type: application/json" -X POST -d '{"place":1, "price":20}' http://localhost:8090/busStation/voyages/{id}/ticket
+    /**
+     * Этот метод по {id} конкретного 'Рейса' в БД создает и присваевает/добавляет один 'Билет'.
+     *
+     *
+     * пример curl запроса:
+     * curl -H "Content-type: application/json" -X POST -d '{"place":1, "price":20}' http://localhost:8090/busStation/voyages/{id}/ticket
+     */
+
     @RequestMapping(value = "/voyages/{id}/ticket", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> addTicketOnVoyage( @PathVariable(value="id") Integer voyageId,
@@ -46,7 +76,14 @@ public class VoyageController {
         return ResponseEntity.ok(service.addTicketsOnVoyage(voyageId, tickets));
     }
 
-    //curl -H "Content-type: application/json" -X POST -d '[{"place":1, "price":20}, {"place":2, "price":20}]' http://localhost:8090/busStation/voyages/{id}/tickets
+    /**
+     * Этот метод по {id} конкретного 'Рейса' в БД создает и присваевает/добавляет несколько 'Билетов'.
+     *
+     *
+     * пример curl запроса:
+     * curl -H "Content-type: application/json" -X POST -d '[{"place":1, "price":20}, {"place":2, "price":20}]' http://localhost:8090/busStation/voyages/{id}/tickets
+     */
+
     @RequestMapping(value = "/voyages/{id}/tickets", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?>  addTicketsOnVoyage( @PathVariable(value="id") Integer voyageId,
@@ -56,7 +93,14 @@ public class VoyageController {
         return ResponseEntity.ok(service.addTicketsOnVoyage(voyageId, ticketSet));
     }
 
-    //curl -H "Content-type: application/json" -X PUT http://localhost:8090/busStation/voyages/{id}/tickets/{ticketId}
+    /**
+     * Этот метод по {id} конкретного 'Рейса' в БД и по {id} конкретный 'Билета' этого 'Рейса' меняет поле "isPaid" на true.
+     *
+     *
+     * пример curl запроса:
+     * curl -H "Content-type: application/json" -X PUT http://localhost:8090/busStation/voyages/{id}/tickets/{ticketId}
+     */
+
     @RequestMapping(value = "/voyages/{id}/tickets/{ticketId}", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?>  sellTicket( @PathVariable(value="id") Integer voyageId,
@@ -64,14 +108,53 @@ public class VoyageController {
         return ResponseEntity.ok(service.sellTicket(voyageId, ticketId));
     }
 
-    //curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/voyages/{id}
+    /**
+     * Этот метод по {id} извлекает конкретный 'Рейс'
+     *
+     * response{
+     *     "id": ... - ID запрашиваемой записи
+     *     "number":"..." - номер рейса запрашиваемой записи
+     *     "bus":{null} - если запрашиваемая запись не хранит 'Автобус'
+     *          {
+     *              "id": ... - ID хранимого автобуса
+     *              "number":"..." - номер хранимого автобуса
+     *              "model":"..." - модель хранимого автобуса
+     *              "driver":{null} - если хранимый автобус не хранит 'Водителя'
+     *                      {
+     *                          "id": ... - ID хранимого водителя
+     *                          "license":"..." - номер водилельского удостоверения хранимого водителя
+     *                          "name":"..." - имя водителя хранимого водителя
+     *                          "surname":"..." - фамилия водителя хранимого водителя
+     *                      } - если к хранимый автобус хранит 'Водителя'
+     *          } - если запрашиваемая запись хранит 'Автобус'
+     *     "tickets":{null}- если запрашиваемая запись не хранит 'Билеты'
+     *              {[
+     *               "id": ... - ID хранимого билета
+     *               "place": ...- место хранимого билета
+     *               "price": ... -  цена хранимого билета
+     *               "isPaid": ... - true(если билет оплачен) или false(если билет не оплачен) хранимого билета
+     *              ]} - если запрашиваемая запись хранит 'Билеты'
+     * }
+     *
+     * пример curl запроса:
+     * curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/voyages/{id}
+     */
+
     @RequestMapping(value = "/voyages/{id}", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findOneVoyage(@PathVariable(value="id") Integer id) {
         return ResponseEntity.ok(service.findOne(id));
     }
 
-    //curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/voyages
+    /**
+     * Этот метод извлекает список всех 'Рейсов'
+     *
+     * response{[...]}
+     *
+     * пример curl запроса:
+     * curl -H "Content-type: application/json" -X GET http://localhost:8090/busStation/voyages
+     */
+
     @RequestMapping(value = "/voyages", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<?> findAllVoyages() {
