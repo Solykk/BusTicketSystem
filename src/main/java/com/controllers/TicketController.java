@@ -15,7 +15,7 @@ public class TicketController {
     private TicketService service;
 
     /**
-     * Этот метод по 'id' извлекает конкретный 'Билет'
+     * Этот метод по {id} извлекает конкретный 'Билет'
      *
      * response{
      *     "id": ... - ID запрашиваемой записи
